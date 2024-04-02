@@ -11,6 +11,31 @@ $(function () {
                 productManagement.products.product.getList),
             columnDefs: [
                 /* TODO: Column definitions */
+                {
+                    title: l('Name'),
+                    data: "name"
+                },
+                {
+                    title: l('CategoryName'),
+                    data: "categoryName",
+                    orderable: false
+                },
+                {
+                    title: l('Price'),
+                    data: "price"
+                },
+                {
+                    title: l('StockState'),
+                    data: "stockState",
+                    render: function (data) {
+                        return l('Enum:StockState:' + data);
+                    }
+                },
+                {
+                    title: l('CreationTime'),
+                    data: "creationTime",
+                    dataFormat: 'date'
+                }
             ]
         })
     )
