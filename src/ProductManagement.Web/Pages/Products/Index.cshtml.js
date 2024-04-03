@@ -1,5 +1,6 @@
 $(function () {
     var l = abp.localization.getResource('ProductManagement');
+
     var dataTable = $('#ProductsTable').DataTable(
         abp.libs.datatables.normalizeConfiguration({
             serverSide: true,
@@ -38,6 +39,14 @@ $(function () {
                 }
             ]
         })
-    )
-}
-)
+    );
+
+    var createModal = new abp.ModalManager(abp.appPath + 'Products/CreateProductModal');
+    createModal.onResult(function () {
+        dataTable.ajax.reload();
+    });
+    $('#NewProductButton').click(function (e) {
+        e.preventDefault();
+        createModal.open();
+    });
+});
