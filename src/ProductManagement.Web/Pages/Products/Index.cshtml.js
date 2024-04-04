@@ -1,6 +1,10 @@
 $(function () {
     var l = abp.localization.getResource('ProductManagement');
 
+    var createModal = new abp.ModalManager(abp.appPath + 'Products/CreateProductModal');
+
+    var editModal = new abp.ModalManager(abp.appPath + 'Products/EditProductModal');
+
     var dataTable = $('#ProductsTable').DataTable(
         abp.libs.datatables.normalizeConfiguration({
             serverSide: true,
@@ -12,6 +16,19 @@ $(function () {
                 productManagement.products.product.getList),
             columnDefs: [
                 /* TODO: Column definitions */
+                {
+                    title: l('Actions'),
+                    rowAction: {
+                        items: [
+                            {
+                                text: l('Edit'),
+                                action: function (data) {
+                                    editModal.open({ id: data.record.id });
+                                }
+                            }
+                        ]
+                    }
+                },
                 {
                     title: l('Name'),
                     data: "name"
@@ -41,10 +58,14 @@ $(function () {
         })
     );
 
-    var createModal = new abp.ModalManager(abp.appPath + 'Products/CreateProductModal');
+    editModal.onResult(function () {
+        dataTable.ajax.reload();
+    });
+
     createModal.onResult(function () {
         dataTable.ajax.reload();
     });
+
     $('#NewProductButton').click(function (e) {
         e.preventDefault();
         createModal.open();
