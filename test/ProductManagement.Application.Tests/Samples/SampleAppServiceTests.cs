@@ -32,3 +32,5 @@ public abstract class SampleAppServiceTests<TStartupModule> : ProductManagementA
         result.Items.ShouldContain(u => u.UserName == "admin");
     }
 }
+
+

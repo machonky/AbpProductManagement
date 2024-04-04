@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Modularity;
+﻿using ProductManagement.Samples;
+using Volo.Abp.Modularity;
 
 namespace ProductManagement;
 
@@ -7,6 +8,3 @@ public abstract class ProductManagementApplicationTestBase<TStartupModule> : Pro
 {
 
 }
-
-public abstract class ProductManagementApplicationTestBase : ProductManagementApplicationTestBase<ProductManagementApplicationTestModule>
-{ }

@@ -1,15 +1,18 @@
 ﻿using ProductManagement.Categories;
 using Shouldly;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Modularity;
 using Volo.Abp.Validation;
 using Xunit;
 
 namespace ProductManagement.Products;
 
-public class ProductAppService_Tests : ProductManagementApplicationTestBase
+public class ProductAppService_Tests<TStartupModule> : ProductManagementApplicationTestBase<TStartupModule>
+    where TStartupModule : IAbpModule
 {
     private readonly IProductAppService _productAppService;
 
@@ -73,80 +76,80 @@ public class ProductAppService_Tests : ProductManagementApplicationTestBase
         });
     }
 
-    //[Fact]
-    //public async Task Should_Not_Allow_To_Create_Invalid_Product()
-    //{
-    //    var category = await WithUnitOfWorkAsync(
-    //        async () => await GetRequiredService<IRepository<Category, Guid>>().FirstAsync()
-    //    );
+    [Fact]
+    public async Task Should_Not_Allow_To_Create_Invalid_Product()
+    {
+        var category = await WithUnitOfWorkAsync(
+            async () => await GetRequiredService<IRepository<Category, Guid>>().FirstAsync()
+        );
 
-    //    var createProductDto = new CreateUpdateProductDto
-    //    {
-    //        // Name is not provided, so we are expecting a validation error 
-    //        Price = 2999,
-    //        ReleaseDate = DateTime.Now,
-    //        StockState = ProductStockState.InStock,
-    //        CategoryId = category.Id,
-    //        IsFreeCargo = true
-    //    };
+        var createProductDto = new CreateUpdateProductDto
+        {
+            // Name is not provided, so we are expecting a validation error 
+            Price = 2999,
+            ReleaseDate = DateTime.Now,
+            StockState = ProductStockState.InStock,
+            CategoryId = category.Id,
+            IsFreeCargo = true
+        };
 
-    //    var exception = await Assert.ThrowsAsync<AbpValidationException>(async () =>
-    //        await _productAppService.CreateAsync(createProductDto)
-    //    );
+        var exception = await Assert.ThrowsAsync<AbpValidationException>(async () =>
+            await _productAppService.CreateAsync(createProductDto)
+        );
 
-    //    exception.ValidationErrors.ShouldContain(x => x.MemberNames.Contains(nameof(CreateUpdateProductDto.Name)));
-    //}
+        exception.ValidationErrors.ShouldContain(x => x.MemberNames.Contains(nameof(CreateUpdateProductDto.Name)));
+    }
 
-    //[Fact]
-    //public async Task Should_Get_Product()
-    //{
-    //    var product = await WithUnitOfWorkAsync(
-    //        async () => await GetRequiredService<IRepository<Product, Guid>>().FirstAsync()
-    //    );
+    [Fact]
+    public async Task Should_Get_Product()
+    {
+        var product = await WithUnitOfWorkAsync(
+            async () => await GetRequiredService<IRepository<Product, Guid>>().FirstAsync()
+        );
 
-    //    var category = await WithUnitOfWorkAsync(
-    //        async () => await GetRequiredService<IRepository<Category, Guid>>().FirstAsync(x => x.Id == product.CategoryId)
-    //    );
+        var category = await WithUnitOfWorkAsync(
+            async () => await GetRequiredService<IRepository<Category, Guid>>().FirstAsync(x => x.Id == product.CategoryId)
+        );
 
-    //    var productDto = await _productAppService.GetAsync(product.Id);
+        var productDto = await _productAppService.GetAsync(product.Id);
 
-    //    productDto.Id.ShouldBe(product.Id);
-    //    productDto.Name.ShouldBe(product.Name);
-    //    productDto.Price.ShouldBe(product.Price);
-    //    productDto.IsFreeCargo.ShouldBe(product.IsFreeCargo);
-    //    productDto.StockState.ShouldBe(product.StockState);
-    //}
+        productDto.Id.ShouldBe(product.Id);
+        productDto.Name.ShouldBe(product.Name);
+        productDto.Price.ShouldBe(product.Price);
+        productDto.IsFreeCargo.ShouldBe(product.IsFreeCargo);
+        productDto.StockState.ShouldBe(product.StockState);
+    }
 
-    //[Fact]
-    //public async Task Should_Update_Product()
-    //{
-    //    var productRepository = GetRequiredService<IRepository<Product, Guid>>();
+    [Fact]
+    public async Task Should_Update_Product()
+    {
+        var productRepository = GetRequiredService<IRepository<Product, Guid>>();
 
-    //    var product = await WithUnitOfWorkAsync(
-    //        async () => await productRepository.FirstAsync(x => x.Name == "Clips 328E1CA 32-Inch Curved Monitor, 4K UHD")
-    //    );
+        var product = await WithUnitOfWorkAsync(
+            async () => await productRepository.FirstAsync(x => x.Name == "PHILIPS - 438P1/69 4K Ultra HD LCD display with MultiView")
+        );
 
-    //    await _productAppService.UpdateAsync(
-    //        product.Id,
-    //        new CreateUpdateProductDto
-    //        {
-    //            Name = "Updated product name",
-    //            Price = 999,
-    //            StockState = ProductStockState.NotAvailable,
-    //            IsFreeCargo = false,
-    //            CategoryId = product.CategoryId,
-    //            ReleaseDate = product.ReleaseDate
-    //        }
-    //    );
+        await _productAppService.UpdateAsync(
+            product.Id,
+            new CreateUpdateProductDto
+            {
+                Name = "Updated product name",
+                Price = 999,
+                StockState = ProductStockState.NotAvailable,
+                IsFreeCargo = false,
+                CategoryId = product.CategoryId,
+                ReleaseDate = product.ReleaseDate
+            }
+        );
 
-    //    product = await WithUnitOfWorkAsync(
-    //        async () => await productRepository.GetAsync(product.Id)
-    //    );
+        product = await WithUnitOfWorkAsync(
+            async () => await productRepository.GetAsync(product.Id)
+        );
 
-    //    product.Name.ShouldBe("Updated product name");
-    //    product.Price.ShouldBe(999);
-    //    product.StockState.ShouldBe(ProductStockState.NotAvailable);
-    //    product.IsFreeCargo.ShouldBeFalse();
-    //}
+        product.Name.ShouldBe("Updated product name");
+        product.Price.ShouldBe(999);
+        product.StockState.ShouldBe(ProductStockState.NotAvailable);
+        product.IsFreeCargo.ShouldBeFalse();
+    }
 
 }
