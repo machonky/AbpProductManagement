@@ -29,7 +29,7 @@ $(function () {
                             {
                                 text: l('Delete'),
                                 confirmMessage: function (data) {
-                                    return l('ProductDelectionConfirmationMessage'), data.record.name
+                                    return l('ProductDeletionConfirmationMessage', data.record.name)
                                 },
                                 action: function (data) {
                                     productManagement.products.product
