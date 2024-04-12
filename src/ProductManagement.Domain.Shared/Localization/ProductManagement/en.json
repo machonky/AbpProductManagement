@@ -23,6 +23,8 @@
     "SuccessfullyDeleted": "Successfully deleted!",
     "ProductManagement": "Product Management",
     "ProductCreation": "Product creation",
+    "ProductListing": "Product listing",
+    "ProductEditing": "Product editing",
     "ProductDeletion": "Product deletion"
   }
 }
