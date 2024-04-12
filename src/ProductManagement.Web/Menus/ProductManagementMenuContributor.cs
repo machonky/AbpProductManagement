@@ -59,7 +59,7 @@ public class ProductManagementMenuContributor : IMenuContributor
                         "ProductManagement.Products",
                         l["Menu:Products"],
                         url: "/Products"
-                        )//.RequirePermissions(ProductManagementPermissions.Products.Default)
+                        ).RequirePermissions(ProductManagementPermissions.Products.Default)
                     )
         );
 
