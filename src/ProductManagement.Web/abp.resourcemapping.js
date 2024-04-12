@@ -6,6 +6,7 @@ module.exports = {
 
     ],
     mappings: {
+        "@node_modules/fullcalendar":"@libs/fullcalendar"
 
     }
 };
