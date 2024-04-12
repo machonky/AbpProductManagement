@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc.Routing;
 using ProductManagement.Localization;
 using ProductManagement.MultiTenancy;
+using ProductManagement.Permissions;
+using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Identity.Web.Navigation;
 using Volo.Abp.SettingManagement.Web.Navigation;
 using Volo.Abp.TenantManagement.Web.Navigation;
@@ -57,7 +59,7 @@ public class ProductManagementMenuContributor : IMenuContributor
                         "ProductManagement.Products",
                         l["Menu:Products"],
                         url: "/Products"
-                        )
+                        )//.RequirePermissions(ProductManagementPermissions.Products.Default)
                     )
         );
 

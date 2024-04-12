@@ -25,6 +25,11 @@
     "ProductCreation": "Product creation",
     "ProductListing": "Product listing",
     "ProductEditing": "Product editing",
-    "ProductDeletion": "Product deletion"
+    "ProductDeletion": "Product deletion",
+    "Permission:ProductManagement": "Product management",
+    "Permission:ProductManagement.Products": "Product management!",
+    "Permission:ProductManagement.Products.Create": "Product creation!",
+    "Permission:ProductManagement.Products.Edit": "Product editing!",
+    "Permission:ProductManagement.Products.Delete": "Product deletion!"
   }
 }

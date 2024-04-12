@@ -22,12 +22,14 @@ $(function () {
                         items: [
                             {
                                 text: l('Edit'),
+                                //visible: abp.auth.isGranted('ProductManagement.Products.Edit'),
                                 action: function (data) {
                                     editModal.open({ id: data.record.id });
                                 }
                             },
                             {
                                 text: l('Delete'),
+                                //visible: abp.auth.IsGranted('ProductManagement.Products.Delete'),
                                 confirmMessage: function (data) {
                                     return l('ProductDeletionConfirmationMessage', data.record.name)
                                 },

@@ -1,5 +1,7 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using ProductManagement.Categories;
+using ProductManagement.Permissions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace ProductManagement.Products;
 
+//[Authorize(ProductManagementPermissions.Products.Default)]
 public class ProductAppService : ProductManagementAppService, IProductAppService
 {
     private readonly IRepository<Product, Guid> _productRepository;
@@ -37,6 +40,7 @@ public class ProductAppService : ProductManagementAppService, IProductAppService
         return new PagedResultDto<ProductDto>(count, ObjectMapper.Map<List<Product>, List<ProductDto>>(products));
     }
 
+    //[Authorize(ProductManagementPermissions.Products.Create)]
     public async Task CreateAsync(CreateUpdateProductDto input)
     {
         await _productRepository.InsertAsync(
@@ -60,12 +64,14 @@ public class ProductAppService : ProductManagementAppService, IProductAppService
         );
     }
 
+    //[Authorize(ProductManagementPermissions.Products.Update)]
     public async Task UpdateAsync(Guid id, CreateUpdateProductDto input)
     {
         var product = await _productRepository.GetAsync(id);
         ObjectMapper.Map(input, product);
     }
 
+    //[Authorize(ProductManagementPermissions.Products.Delete)]
     public async Task DeleteAsync(Guid id)
     {
         await _productRepository.DeleteAsync(id);

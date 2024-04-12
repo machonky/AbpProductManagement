@@ -8,11 +8,12 @@ public class ProductManagementPermissionDefinitionProvider : PermissionDefinitio
 {
     public override void Define(IPermissionDefinitionContext context)
     {
-        var g = context.AddGroup(ProductManagementPermissions.GroupName, L("ProductManagement"));
-        g.AddPermission(ProductManagementPermissions.Products.Create, L("ProductCreation"));
-        g.AddPermission(ProductManagementPermissions.Products.Read, L("ProductListing"));
-        g.AddPermission(ProductManagementPermissions.Products.Update, L("ProductEditing"));
-        g.AddPermission(ProductManagementPermissions.Products.Delete, L("ProductDeletion"));
+        var groupPermission = context.AddGroup(ProductManagementPermissions.GroupName, L(ProductManagementPermissions.PermissionPrefix + ProductManagementPermissions.GroupName))
+        .AddPermission(ProductManagementPermissions.Products.GroupPrefix, L(ProductManagementPermissions.Products.Display.Default));
+
+        groupPermission.AddChild(ProductManagementPermissions.Products.Create, L(ProductManagementPermissions.Products.Display.Create));
+        groupPermission.AddChild(ProductManagementPermissions.Products.Edit, L(ProductManagementPermissions.Products.Display.Edit));
+        groupPermission.AddChild(ProductManagementPermissions.Products.Delete, L(ProductManagementPermissions.Products.Display.Delete));
     }
 
     private static LocalizableString L(string name)
